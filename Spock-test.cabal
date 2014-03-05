@@ -12,9 +12,12 @@ Executable spock-test
    Main-Is:        SpockTest.hs
    ghc-options:    -threaded
    Build-depends:   base                     >= 4.6        && < 5
-                  , Spock == 0.4.*
+                  , Spock == 0.4.2.4
+                  , Spock-worker == 0.1.0.1
                   , text
                   , persistent
                   , persistent-sqlite 
                   , persistent-template
                   , http-test
+                  , stm
+                  , mtl
