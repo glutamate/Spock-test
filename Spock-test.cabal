@@ -1,0 +1,20 @@
+Name:                Spock-test
+Version:             0.1
+Description:         Testing Spock
+License:             BSD3
+License-file:        LICENSE
+Author:              Tom Nielsen
+Maintainer:          tomn@openbrain.org
+build-type:          Simple
+Cabal-Version:       >= 1.8
+
+Executable spock-test
+   Main-Is:        SpockTest.hs
+   ghc-options:    -threaded
+   Build-depends:   base                     >= 4.6        && < 5
+                  , Spock == 0.4.*
+                  , text
+                  , persistent
+                  , persistent-sqlite 
+                  , persistent-template
+                  , http-test
