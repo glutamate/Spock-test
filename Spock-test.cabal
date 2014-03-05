@@ -18,6 +18,6 @@ Executable spock-test
                   , persistent
                   , persistent-sqlite 
                   , persistent-template
-                  , http-test
+                  , http-test >= 0.1.3
                   , stm
                   , mtl
