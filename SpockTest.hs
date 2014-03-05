@@ -13,27 +13,15 @@ import           Database.Persist.TH
 import Control.Concurrent
 import qualified Test.HTTP as HT
 
-sessCfg = SessionCfg "pricing" (72*60*60) 42
-
-
-share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-Person
-    name String
-    age Int Maybe
-    deriving Show
-BlogPost
-    title String
-    authorId PersonId
-    deriving Show
-|]
+sessCfg = SessionCfg "spocktest" (72*60*60) 42
 
 main = do
   forkIO $ runServer
-  threadDelay (2*1000*1000)
+  threadDelay (1*1000*1000)
   runTest
 
 runServer = 
-  withSqlitePool "/tmp/spocktestdb" 1 $ \pool -> do 
+  withSqlitePool ":memory:" 1 $ \pool -> do 
     spock 3000 sessCfg (PCPool pool) () routes
 
 routes = do
@@ -43,4 +31,5 @@ runTest = do
   HT.httpTest $ do
     HT.session "testHello" "http://localhost:3000" $ do
        hello <- HT.get "/"
-       HT.assert "root is hello" $ hello=="hullo"
+       HT.assert "root is hello" $ hello=="hello"
+
