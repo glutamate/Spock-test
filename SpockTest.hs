@@ -8,9 +8,6 @@
 
 import Web.Spock
 import Web.Spock.Worker
-import           Database.Persist hiding (get)
-import           Database.Persist.Sqlite hiding (get)
-import           Database.Persist.TH
 import Control.Concurrent
 import qualified Test.HTTP as HT
 import qualified Data.Text.Lazy as TL
@@ -24,10 +21,14 @@ main = do
   threadDelay (1*1000*1000)
   runTest
 
+fakeConn =
+    ConnBuilder (return ()) (const (return ())) pcfg
+    where
+      pcfg = PoolCfg 1 1 1
+
 runServer = do
   tv <- atomically $ newTVar (0::Int)
-  withSqlitePool ":memory:" 1 $ \pool -> do 
-    spock 3000 sessCfg (PCPool pool) tv routes
+  spock 3000 sessCfg (PCConn fakeConn) tv routes
 
 routes = do
   worker <- newWorker 10 doWork workErrH
