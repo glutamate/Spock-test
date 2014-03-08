@@ -59,6 +59,10 @@ runTest = do
        assertCounter "after incr" "0"
        liftIO $ threadDelay (2*1000*1000)
        assertCounter "after delay" "1"
+       HT.get "/increment/1/1" >>= HT.assertEq "increasingOK" "OK"
+       assertCounter "after incr2" "1"
+       liftIO $ threadDelay (2*1000*1000)
+       assertCounter "after delay" "2"
 
 assertCounter msg val = do
    c0 <- HT.get "/get_counter"
